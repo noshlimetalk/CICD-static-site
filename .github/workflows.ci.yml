@@ -1,0 +1,23 @@
+name: CI Pipeline- Static Site
+
+on:
+push:
+branches: [ main }
+jobs:
+build:
+runs-on: ubuntu-latest
+
+steps:
+- name: checkout repository
+uses: actions/checkout@v4
+
+- name: List Files (sanity check)
+runs: ls -la
+
+- name: HTML validation check
+run: |
+if [ ! -f index.html ]; then
+echo "index.html missing!"
+exit 1
+fi
+
