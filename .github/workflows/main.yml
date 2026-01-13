@@ -1,0 +1,37 @@
+name: Advanced CI Pipeline
+
+on:
+push:
+branches: [ main ]
+pull_request:
+branches: [ main ] 
+
+jobs:
+validate:
+runs-on: ubuntu-latest
+
+steps:
+- name: Checkout repository
+uses: actions/checkout@v4
+
+- name: Validate required files
+run: |
+test -f index.html
+test -f style.css
+
+- name: Print sucess message
+run: echo "Validation passed!"
+
+lint:
+runs-on: ubuntu-latest
+needs: validate
+
+steps:
+- name: Checkout repository
+uses: actions/checkout@v4
+
+- name: Install HTMLHint
+run: npm install -g htmlhint
+
+-name: Run HTML lint
+run: htmlhint index.html
